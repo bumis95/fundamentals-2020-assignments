@@ -35,8 +35,7 @@ class Workshop1ViewModel(
                     password.isEmpty() -> LoginResult.Error.Password()
                     else -> {
                         val newToken = UUID.randomUUID().toString()
-                        // TODO 02: create updateUserToken fun that will add or update user token in SP
-
+                        updateUserToken(newToken)
                         LoginResult.Success()
                     }
                 }
@@ -44,19 +43,40 @@ class Workshop1ViewModel(
         }
     }
 
-    // TODO 03: create logout fun that will wait for logout clear user token from SP
     fun logout() {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main) {
+                _mutableLogoutState.value = LogoutResult.Loading()
 
-        // TODO 04: create clearUserToken fun that will clear user token from SP when user is logged in
+                withContext(Dispatchers.IO) {
+                    delay(DELAY_MILLIS)
+                }
+
+                clearUserToken()
+                _mutableLogoutState.value = LogoutResult.Success()
+            }
+        }
     }
 
-    fun checkUserIsLoggedIn(): Boolean {
-        // TODO 05: check sharedPreferences is it has saved user token
-        return TODO()
+    fun checkUserIsLoggedIn(): Boolean =
+        sharedPreferences.contains(USER_TOKEN_KEY)
+
+
+    private fun updateUserToken(token: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(USER_TOKEN_KEY, token)
+        editor.apply()
+    }
+
+    private fun clearUserToken() {
+        val editor = sharedPreferences.edit()
+        editor.remove(USER_TOKEN_KEY)
+        editor.apply()
     }
 
     companion object {
         const val DELAY_MILLIS: Long = 3_000
+        const val USER_TOKEN_KEY = "USER_TOKEN_KEY"
     }
 }
 
