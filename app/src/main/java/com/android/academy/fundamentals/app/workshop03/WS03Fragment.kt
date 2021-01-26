@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import com.android.academy.fundamentals.WS03Service
 import com.android.academy.fundamentals.app.R
 import com.bumptech.glide.Glide
 
@@ -33,9 +32,9 @@ class WS03Fragment : Fragment() {
                 val startServiceIntent = Intent(context, WS03Service::class.java)
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    //TODO 10: Call context.startForegroundService and pass startServiceIntent
+                    context.startForegroundService(startServiceIntent)
                 } else {
-                    //TODO 11: Call context.startService and pass startServiceIntent
+                    context.startService(startServiceIntent)
                 }
             }
         }
@@ -43,7 +42,7 @@ class WS03Fragment : Fragment() {
         view.findViewById<Button>(R.id.stop_service)?.apply {
             setOnClickListener {
                 val intent = Intent(context, WS03Service::class.java)
-                //TODO 12: Call context.stopService and pass intent
+                context.stopService(intent)
             }
         }
 
