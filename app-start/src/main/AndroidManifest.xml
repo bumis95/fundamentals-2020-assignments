@@ -18,7 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.android.people">
 
-    <!-- TODO Ws04_Permissions_01: Add uses-permission with "ACCESS_COARSE_LOCATION" -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="false"
@@ -47,14 +47,15 @@
                 specified chat screen.
             -->
 
-            <!-- TODO 1 Create Intent Filter
-                    set action VIEW
-                    set two categories DEFAULT and BROWSABLE
-                    set data (our future link)
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
                     android:host="android.example.com"
                     android:pathPattern="/chat/.*"
-                    android:scheme="https"
-            -->
+                    android:scheme="https" />
+            </intent-filter>
 
             <!--
                 This opens the chat screen with the message field filled with the passed text.
@@ -76,10 +77,10 @@
             android:theme="@style/Theme.People.Voice" />
 
         <!-- to work with broadcast you need to register it in manifest
-             just uncomment this block of code
+             just uncomment this block of code        -->
         <receiver
            android:name="com.example.android.people.ReplyReceiver" />
-        -->
+
        <provider
            android:name="com.example.android.people.AssetFileProvider"
            android:authorities="com.example.android.people"
